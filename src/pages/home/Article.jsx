@@ -1,7 +1,12 @@
-import { FaAnchor } from "react-icons/fa6";
-export default function Article() {
+import { FaAnchor, FaBullhorn } from "react-icons/fa6";
+export default function Article({ isSec }) {
   return (
-    <div className="flex gap-5 p-24 max-lg:px-[20px] max-sm:flex-col">
+    <div className={`flex ${isSec ? 'gap-10 bg-[#F1F1F1]' : ' gap-5 bg-white'} p-24 max-lg:px-[20px] max-sm:flex-col`}>
+
+      {isSec && <div className="max-sm:self-center">
+
+        <FaBullhorn size={200} color="#F44336" />
+      </div>}
       <div className="space-y-8 ">
         <h1 className="text-6xl">Lorem Ipsum</h1>
 
@@ -14,9 +19,9 @@ export default function Article() {
 
       </div>
 
-      <div className="max-sm:self-center">
+      {!isSec && <div className="max-sm:self-center">
         <FaAnchor size={200} color="#F44336" />
-      </div>
+      </div>}
     </div>
   )
 }

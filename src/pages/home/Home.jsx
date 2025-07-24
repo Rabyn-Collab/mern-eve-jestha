@@ -9,7 +9,8 @@ export default function Home() {
 
 
       <DisplaySec />
-      <Article />
+      <Article isSec={false} />
+      <Article isSec={true} />
 
 
     </div>

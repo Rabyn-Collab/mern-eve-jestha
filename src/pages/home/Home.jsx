@@ -1,55 +1,37 @@
-import { faker } from "@faker-js/faker";
-import { Button, IconButton } from "@material-tailwind/react";
-import { useState } from "react"
-
+import axios from "axios"
+import { useEffect, useState } from "react";
 
 export default function Home() {
-
-  const [data, setData] = useState([]);
-
-
-  const handleData = () => {
-    const newData = {
-      id: faker.string.uuid(),
-      name: faker.internet.displayName(),
-      image: faker.image.personPortrait()
-    };
-    setData((prev) => [...prev, newData]);
+  const [data, setData] = useState();
+  const [load, setLoad] = useState(false);
+  const [err, setErr] = useState();
+  const getData = async () => {
+    setLoad(true);
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
+      setLoad(false);
+      setData(response.data)
+    } catch (err) {
+      setLoad(false);
+      setErr(err.message);
+    }
   }
 
-  const removeData = (id) => {
-
-  }
-
+  useEffect(() => {
+    getData();
+  }, []);
+  if (load) return <h1>Loading....</h1>
+  if (err) return <h1 className="text-pink-700">{err}</h1>
   console.log(data);
-
 
   return (
     <div className="p-5">
-      <Button onClick={handleData}>Click</Button>
-      <div className="grid grid-cols-4 gap-5 mt-5">
+      {data && data.map((todo) => {
+        return <div key={todo.id}>
+          <h1>{todo.title}</h1>
 
-
-        {data.map((user, index) => {
-          return <div key={user.id} className="space-y-2">
-            <h1>{user.name}</h1>
-            <img className="h-[250px] w-full object-cover" src={user.image} alt="" />
-            <div className="flex justify-end">
-              <IconButton color="pink" size="sm">
-                <i className="fas fa-trash" />
-              </IconButton>
-            </div>
-
-          </div>
-
-        })}
-
-      </div>
-
-
-
-
-
+        </div>
+      })}
 
     </div>
   )

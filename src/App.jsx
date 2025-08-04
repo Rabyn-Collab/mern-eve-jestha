@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
 import MealCategory from "./pages/meal-category/MealCategory.jsx";
 import CategoryItems from "./pages/category-items/CategoryItems.jsx";
+import Meal from "./pages/meal/Meal.jsx";
 
 export default function App() {
 
@@ -19,6 +20,10 @@ export default function App() {
         {
           path: 'category-items',
           element: <CategoryItems />
+        },
+        {
+          path: 'meal/:id',
+          element: <Meal />
         }
 
       ]

@@ -1,6 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router"
+import {
+  List,
+  ListItem,
+  ListItemPrefix,
+  Avatar,
+  Card,
+  Typography,
+} from "@material-tailwind/react";
 
 export default function CategoryItems() {
 
@@ -32,9 +40,33 @@ export default function CategoryItems() {
 
   if (load) return <h1>Loading....</h1>
   if (err) return <h1>{err}</h1>
-  console.log(data);
+
+
+
   return (
-    <div>
+    <div className="p-5">
+
+      <Card className="w-96">
+        <List>
+
+          {data && data.meals.map((meal) => {
+            return <ListItem key={meal.idMeal}>
+              <ListItemPrefix>
+                <Avatar variant="circular" alt="candice" src={meal.strMealThumb} />
+              </ListItemPrefix>
+              <div>
+                <Typography variant="h6" color="blue-gray">
+                  {meal.strMeal}
+                </Typography>
+
+              </div>
+            </ListItem>;
+          })}
+
+
+        </List>
+      </Card>
+
 
 
 

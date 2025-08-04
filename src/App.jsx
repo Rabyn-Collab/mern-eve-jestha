@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
 import MealCategory from "./pages/meal-category/MealCategory.jsx";
+import CategoryItems from "./pages/category-items/CategoryItems.jsx";
 
 export default function App() {
 
@@ -14,8 +15,11 @@ export default function App() {
         {
           index: true,
           element: <MealCategory />
-
         },
+        {
+          path: 'category-items',
+          element: <CategoryItems />
+        }
 
       ]
     },

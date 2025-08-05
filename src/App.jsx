@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
-import MealCategory from "./pages/meal-category/MealCategory.jsx";
 import CategoryItems from "./pages/category-items/CategoryItems.jsx";
 import Meal from "./pages/meal/Meal.jsx";
+import Home from "./pages/home/Home.jsx";
+import SearchPage from "./pages/search-meal/SearchPage.jsx";
 
 export default function App() {
 
@@ -15,7 +16,7 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <MealCategory />
+          element: <Home />
         },
         {
           path: 'category-items',
@@ -24,6 +25,10 @@ export default function App() {
         {
           path: 'meal/:id',
           element: <Meal />
+        },
+        {
+          path: 'search-meal',
+          element: <SearchPage />
         }
 
       ]

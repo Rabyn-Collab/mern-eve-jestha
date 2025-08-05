@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import {
   List,
   ListItem,
@@ -13,6 +13,7 @@ import {
 export default function CategoryItems() {
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const nav = useNavigate();
 
   const [data, setData] = useState();
   const [load, setLoad] = useState(false);
@@ -50,7 +51,9 @@ export default function CategoryItems() {
         <List>
 
           {data && data.meals.map((meal) => {
-            return <ListItem key={meal.idMeal}>
+            return <ListItem
+              onClick={() => nav(`/meal/${meal.idMeal}`)}
+              key={meal.idMeal}>
               <ListItemPrefix>
                 <Avatar variant="circular" alt="candice" src={meal.strMealThumb} />
               </ListItemPrefix>

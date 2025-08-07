@@ -1,42 +1,18 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router"
+import { useApiHooks } from "../../hooks/apiHooks.js";
 
 export default function Meal() {
   const { id } = useParams();
 
-  const [data, setData] = useState();
-  const [load, setLoad] = useState(false);
-  const [err, setErr] = useState();
+  const [data, load, err] = useApiHooks('https://www.themealdb.com/api/json/v1/1/lookup.php', {
+    i: id
+  });
 
-  const getData = async () => {
-    setLoad(true);
-    try {
-      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/lookup.php', {
-        params: {
-          i: id
-        }
-      });
-      setLoad(false);
-      setData(response.data);
-    } catch (err) {
-      setLoad(false);
-      setErr(err.message);
-    }
-  }
 
-  useEffect(() => {
-    getData();
-  }, []);
 
   if (load) return <h1>Loading....</h1>
   if (err) return <h1>{err}</h1>
-  console.log(data);
 
-  // const per = {
-  //   name: 'ram'
-  // };
-  // per['name']
 
   return (
     <div className="p-5">

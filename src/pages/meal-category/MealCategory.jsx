@@ -1,5 +1,3 @@
-import axios from "axios"
-import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -9,30 +7,14 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { useNavigate } from "react-router";
+import { useApiHooks } from "../../hooks/apiHooks.js";
 
 
 export default function MealCategory() {
+
+  const [data, load, err] = useApiHooks('https://www.themealdb.com/api/json/v1/1/categories.php');
   const nav = useNavigate();
 
-  const [data, setData] = useState();
-  const [load, setLoad] = useState(false);
-  const [err, setErr] = useState();
-
-  const getData = async () => {
-    setLoad(true);
-    try {
-      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
-      setLoad(false);
-      setData(response.data);
-    } catch (err) {
-      setLoad(false);
-      setErr(err.message);
-    }
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   if (load) return <h1>Loading....</h1>
   if (err) return <h1>{err}</h1>

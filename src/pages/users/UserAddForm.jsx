@@ -2,6 +2,7 @@ import { Button, Checkbox, Input, Option, Radio, Select, Textarea, Typography } 
 import { Formik } from "formik";
 import * as Yup from 'yup';
 
+const fileTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp', 'image/gif'];
 
 const valSchema = Yup.object({
   username: Yup.string().min(5).max(50).required(),
@@ -10,7 +11,11 @@ const valSchema = Yup.object({
   habits: Yup.array().min(1).required(),
   country: Yup.string().required(),
   bio: Yup.string().required(),
-  // image: ''
+  // image: Yup.mixed().required().test('fileType', 'Unsupported File Type', (val) => {
+  //   return fileTypes.includes(val.type);
+  // }).test('fileSize', 'File Size is too large', (val) => {
+  //   return val.size <= 5 * 1024 * 1024;
+  // }),
 })
 
 export default function UserAddForm() {
@@ -28,7 +33,8 @@ export default function UserAddForm() {
           habits: [],
           country: '',
           bio: '',
-          image: ''
+          // image: '',
+          // imagePrev: ''
         }}
         onSubmit={(val, { resetForm }) => {
           console.log(val);
@@ -104,12 +110,15 @@ export default function UserAddForm() {
             {/* <Input
               onChange={(e) => {
                 const file = e.target.files[0];
-                setFieldValue('image', URL.createObjectURL(file));
-              }}
-              label="Select An Image" type="file" name="image" /> */}
-            {/* <h1>{values.image}</h1> */}
+                setFieldValue('imagePrev', URL.createObjectURL(file));
+                setFieldValue('image', file);
 
-            {/* {values.image && <img src={values.image} alt="" />} */}
+              }}
+              label="Select An Image" type="file" name="image" />
+
+            {errors.image && touched.image && <h1 className="text-pink-700">{errors.image}</h1>}
+
+            {!errors.image && values.imagePrev && <img src={values.imagePrev} alt="" />} */}
 
             <Button type="submit">Submit</Button>
 

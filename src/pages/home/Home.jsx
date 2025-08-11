@@ -1,28 +1,21 @@
 import { Button } from "@material-tailwind/react";
-import { useEffect, useState } from "react";
-
+import { useState } from "react"
 
 export default function Home() {
 
   const [count, setCount] = useState(0);
 
 
-  const someFunc = () => {
-    console.log('hello jee');
-  }
-
-  useEffect(() => {
-    someFunc();
-
-  }, [count]);
-
 
   return (
-    <div>
+    <div className="p-5">
+
       <h1>{count}</h1>
-      <Button onClick={() => setCount(count + 1)}>Increment</Button>
 
-
+      <Button>Increment</Button>
+      <br />
+      <br />
+      <Button>Decrement</Button>
 
     </div>
   )

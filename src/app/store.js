@@ -10,5 +10,4 @@ export const store = configureStore({
   reducer: {
     userSlice: userSlice.reducer
   }
-
 });

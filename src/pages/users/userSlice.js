@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getUserFromLocal, setUserToLocal } from "../../local/local.js";
 
 
 
@@ -6,7 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const userSlice = createSlice({
   name: 'userSlice',
   initialState: {
-    users: []
+    users: getUserFromLocal()
   },
 
 
@@ -14,9 +15,17 @@ export const userSlice = createSlice({
 
     addUser: (state, action) => {
       state.users.push(action.payload);
+      setUserToLocal(state.users);
+    },
+
+    updateUser: (state, action) => {
+
+    },
+
+    removeUser: (state, action) => {
+      state.users.splice(action.payload, 1);
+      setUserToLocal(state.users);
     }
-
-
 
   }
 
@@ -24,4 +33,4 @@ export const userSlice = createSlice({
 
 });
 
-export const { addUser } = userSlice.actions;
+export const { addUser, removeUser, updateUser } = userSlice.actions;

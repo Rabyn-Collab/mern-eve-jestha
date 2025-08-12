@@ -1,6 +1,10 @@
 import { Button, Checkbox, Input, Option, Radio, Select, Textarea, Typography } from "@material-tailwind/react";
 import { Formik } from "formik";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import * as Yup from 'yup';
+import { addUser } from "./userSlice.js";
+import { nanoid } from "@reduxjs/toolkit";
 
 const fileTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp', 'image/gif'];
 
@@ -19,6 +23,8 @@ const valSchema = Yup.object({
 })
 
 export default function UserAddForm() {
+  const dispatch = useDispatch();
+  const nav = useNavigate();
 
 
   return (
@@ -37,8 +43,9 @@ export default function UserAddForm() {
           // imagePrev: ''
         }}
         onSubmit={(val, { resetForm }) => {
-          console.log(val);
-          // resetForm();
+          dispatch(addUser({ ...val, id: nanoid() }));
+          nav(-1);
+
         }}
         validationSchema={valSchema}
 

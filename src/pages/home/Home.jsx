@@ -1,12 +1,14 @@
 import { IconButton, Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux"
 import { removeUser } from "../users/userSlice.js";
+import { useNavigate } from "react-router";
 
 
 export default function Home() {
 
   const { users } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   // console.log(users);
 
@@ -36,7 +38,9 @@ export default function Home() {
           <p className="text-gray-700 text-sm">{user.bio}</p>
 
           <div className="flex mt-2 justify-end gap-5">
-            <IconButton size="sm" color="green">
+            <IconButton
+              onClick={() => nav(`/update-user/${user.id}`)}
+              size="sm" color="green">
               <i className="fas fa-edit" />
             </IconButton>
             <IconButton

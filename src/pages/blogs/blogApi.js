@@ -9,12 +9,22 @@ export const blogApi = createApi({
 
   endpoints: (builder) => ({
 
-
     getBlogs: builder.query({
       query: () => ({
         url: '/blogs',
         method: 'GET'
-      })
+      }),
+      providesTags: ['Blogs']
+    }),
+
+    addBlog: builder.mutation({
+      query: (data) => ({
+        url: '/blogs',
+        body: data,
+        method: 'POST'
+      }),
+      invalidatesTags: ['Blogs']
+
     })
 
 
@@ -23,4 +33,4 @@ export const blogApi = createApi({
   })
 });
 
-export const { useGetBlogsQuery, useLazyGetBlogsQuery } = blogApi;
+export const { useGetBlogsQuery, useLazyGetBlogsQuery, useAddBlogMutation } = blogApi;

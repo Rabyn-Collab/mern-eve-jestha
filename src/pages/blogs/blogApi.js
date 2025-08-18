@@ -9,6 +9,17 @@ export const blogApi = createApi({
 
   endpoints: (builder) => ({
 
+    searchBlogs: builder.query({
+      query: (query) => ({
+        url: '/blogs',
+        params: {
+          search: query
+        },
+        method: 'GET'
+      }),
+      providesTags: ['Blogs']
+    }),
+
     getBlogs: builder.query({
       query: () => ({
         url: '/blogs',
@@ -57,4 +68,4 @@ export const blogApi = createApi({
   })
 });
 
-export const { useGetBlogsQuery, useLazyGetBlogsQuery, useAddBlogMutation, useRemoveBlogMutation, useGetBlogQuery, useUpdateBlogMutation } = blogApi;
+export const { useGetBlogsQuery, useLazyGetBlogsQuery, useAddBlogMutation, useRemoveBlogMutation, useGetBlogQuery, useUpdateBlogMutation, useSearchBlogsQuery } = blogApi;

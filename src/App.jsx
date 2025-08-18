@@ -4,6 +4,7 @@ import RootLayOut from "./components/RootLayOut";
 import Home from "./pages/home/Home.jsx";
 import AddBlog from "./pages/blogs/AddBlog.jsx";
 import UpdateBlog from "./pages/blogs/UpdateBlog.jsx";
+import SearchPage from "./pages/search/SearchPage.jsx";
 
 export default function App() {
 
@@ -26,6 +27,10 @@ export default function App() {
         {
           path: 'update-blog/:id',
           element: <UpdateBlog />
+        },
+        {
+          path: 'search-blog',
+          element: <SearchPage />
         }
 
 

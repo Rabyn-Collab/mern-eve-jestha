@@ -1,5 +1,7 @@
 import { Button } from "@material-tailwind/react";
 import { useGetBlogsQuery, useLazyGetBlogsQuery } from "../blogs/blogApi.js"
+import RemoveBlog from "../blogs/RemoveBlog.jsx";
+import { useNavigate } from "react-router";
 
 export default function Home() {
   // const [a, b, c, d] = [11,22,33,44];
@@ -10,6 +12,8 @@ export default function Home() {
   // };
   // const { name, age } = person;
   // const [blogCall, { isLoading, error, data }] = useLazyGetBlogsQuery();
+
+  const nav = useNavigate();
 
   const { isLoading, error, data } = useGetBlogsQuery();
   if (isLoading) return <h1>Loading....</h1>
@@ -22,7 +26,14 @@ export default function Home() {
         return <div key={blog.id}>
           <h1>{blog.title}</h1>
           <p>{blog.detail}</p>
-          <img src={blog.image} alt="" />
+          <img className="w-[200px] h-[200px]" src={blog.image} alt="" />
+          <div className="flex gap-5 my-5">
+            <Button
+              onClick={() => nav(`/update-blog/${blog.id}`)}
+              color="green" size="sm">Update Blog</Button>
+            <RemoveBlog id={blog.id} />
+          </div>
+
 
         </div>
       })}

@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { blogApi } from "../pages/blogs/blogApi.js";
-
+import { drinkApi } from "../pages/drinks/drinkApi.js";
 
 
 
@@ -8,10 +7,10 @@ import { blogApi } from "../pages/blogs/blogApi.js";
 
 export const store = configureStore({
   reducer: {
-    [blogApi.reducerPath]: blogApi.reducer
+    [drinkApi.reducerPath]: drinkApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
-      blogApi.middleware
+      drinkApi.middleware
     ]),
 });

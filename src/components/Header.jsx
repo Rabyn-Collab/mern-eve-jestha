@@ -5,9 +5,10 @@ export default function Header() {
     <div className="bg-black px-5 py-2 text-white flex items-center justify-between">
       <h1 className=" text-xl">RTK Query</h1>
 
-      <nav>
+      <nav className="space-x-5">
 
-        <NavLink to={'/add-blog'}>Add Blog</NavLink>
+        <NavLink to={'/'}>Cocktail</NavLink>
+        <NavLink to={'/mocktails'}>Mocktail</NavLink>
 
       </nav>
 

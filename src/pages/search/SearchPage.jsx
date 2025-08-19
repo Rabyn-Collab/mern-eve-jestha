@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router"
 import { useSearchBlogsQuery } from "../blogs/blogApi.js";
+import SearchInput from "./SearchInput.jsx";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -9,7 +10,9 @@ export default function SearchPage() {
   if (error) return <p className="text-pink-700">{error.data}</p>
 
   return (
-    <div>
+    <div className="p-5">
+      <SearchInput setSearchParams={setSearchParams} />
+
       {data && data.map((blog) => {
         return <div key={blog.id}>
           <h1>{blog.title}</h1>

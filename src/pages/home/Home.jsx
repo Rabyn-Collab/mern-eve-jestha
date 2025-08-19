@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <div className="p-5">
-      <SearchInput />
+      <SearchInput isNav={true} />
       {/* <Button onClick={() => blogCall()}>Click To Call</Button> */}
       {data && data.map((blog) => {
         return <div key={blog.id}>

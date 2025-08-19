@@ -2,7 +2,7 @@ import { Button, Input } from "@material-tailwind/react";
 import { Formik } from "formik";
 import { useNavigate } from "react-router";
 
-export default function SearchInput() {
+export default function SearchInput({ isNav, setSearchParams }) {
 
   const nav = useNavigate();
   return (
@@ -14,7 +14,12 @@ export default function SearchInput() {
           search: ''
         }}
         onSubmit={(val) => {
-          nav(`/search-blog?search=${val.search}`)
+          if (isNav) {
+            nav(`/search-blog?search=${val.search}`);
+          } else {
+            setSearchParams({ search: val.search });
+          }
+
         }}
       >
         {({ handleChange, handleSubmit, values, }) => (

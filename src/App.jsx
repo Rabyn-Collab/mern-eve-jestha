@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
 import Cocktails from "./pages/drinks/Cocktails.jsx";
 import Mocktails from "./pages/drinks/Mocktails.jsx";
+import DrinkDetail from "./pages/drinks/DrinkDetail.jsx";
 
 
 export default function App() {
@@ -23,6 +24,11 @@ export default function App() {
         {
           path: 'mocktails',
           element: <Mocktails />
+        },
+
+        {
+          path: 'drink/:id',
+          element: <DrinkDetail />
         }
 
 

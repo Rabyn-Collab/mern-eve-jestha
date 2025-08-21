@@ -1,9 +1,8 @@
 import { createBrowserRouter } from "react-router"
 import { RouterProvider } from "react-router-dom";
 import RootLayOut from "./components/RootLayOut";
-import Cocktails from "./pages/drinks/Cocktails.jsx";
-import Mocktails from "./pages/drinks/Mocktails.jsx";
-import DrinkDetail from "./pages/drinks/DrinkDetail.jsx";
+import Upcoming from "./features/movie/Upcoming.jsx";
+import MovieDetail from "./features/movie/MovieDetail.jsx";
 
 
 export default function App() {
@@ -18,17 +17,13 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <Cocktails />
+          element: <Upcoming />
+
         },
 
         {
-          path: 'mocktails',
-          element: <Mocktails />
-        },
-
-        {
-          path: 'drink/:id',
-          element: <DrinkDetail />
+          path: 'movie-detail/:id',
+          element: <MovieDetail />
         }
 
 

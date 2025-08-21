@@ -1,9 +1,5 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
-body {
-  background-color: #230312;
-  color: white;
-}
 
 @theme {}

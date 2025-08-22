@@ -7,8 +7,8 @@ export default function Header() {
 
       <nav className="space-x-5">
 
-        <NavLink to={'/'}>Cocktail</NavLink>
-        <NavLink to={'/mocktails'}>Mocktail</NavLink>
+        <NavLink to={'/popular'}>Popular</NavLink>
+        <NavLink to={'/top-rated'}>Top Rated</NavLink>
 
       </nav>
 

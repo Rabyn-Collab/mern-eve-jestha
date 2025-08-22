@@ -1,25 +1,40 @@
 import { useNavigate } from "react-router";
 import { useGetUpcomingMovieQuery } from "./movieApi.js";
+import MovieList from "./MovieList.jsx";
+import { useSearchParams } from "react-router";
+import { Button } from "@material-tailwind/react";
+import { useEffect } from "react";
 
 export default function Upcoming() {
-  const { isLoading, error, data } = useGetUpcomingMovieQuery();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get('page') || 1;
+  const { isLoading, error, data } = useGetUpcomingMovieQuery(page);
   const nav = useNavigate();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [page])
+
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1 className="text-red-500">{error.message}</h1>;
 
+  console.log(data);
+
 
   return (
-    <div className="p-5 grid grid-cols-4 gap-4">
+    <div>
 
-      {data && data.results.map((movie) => {
-        return <div
-          className="cursor-pointer"
-          onClick={() => nav(`/movie-detail/${movie.id}`)}
-          key={movie.id}>
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
+      <MovieList data={data} />
 
-        </div>
-      })}
+      <div className="flex items-center justify-center gap-5 mb-6 mt-3">
+        <Button
+          onClick={() => nav(-1)}
+          disabled={page === 1}>Prev</Button>
+        <h1>{page}</h1>
+        <Button
+          onClick={() => setSearchParams({ page: Number(page) + 1 })}
+          disabled={page === data.total_pages}>Next</Button>
+      </div>
 
     </div>
   )

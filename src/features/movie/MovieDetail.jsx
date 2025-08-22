@@ -1,5 +1,6 @@
 import { useParams } from "react-router"
 import { useGetMovieDetailQuery } from "./movieApi.js";
+import MovieVideo from "./MovieVideo.jsx";
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -7,7 +8,6 @@ export default function MovieDetail() {
 
   if (isLoading) return <h1>Loading...</h1>;
   if (error) return <h1 className="text-red-500">{error.message}</h1>;
-  console.log(data);
 
 
   return (
@@ -27,6 +27,8 @@ export default function MovieDetail() {
         </div>
 
       </div>
+
+      <MovieVideo id={data.id} />
 
     </div>
   )

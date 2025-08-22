@@ -11,8 +11,29 @@ export const movieApi = createApi({
   endpoints: (builder) => ({
 
     getUpcomingMovie: builder.query({
-      query: () => ({
+      query: (page) => ({
         url: '/movie/upcoming',
+        params: {
+          api_key: '92c1e33f015755d27a231793c44ecfed',
+          page: page
+        },
+        method: 'GET'
+      })
+    }),
+
+    getPopularMovie: builder.query({
+      query: () => ({
+        url: '/movie/popular',
+        params: {
+          api_key: '92c1e33f015755d27a231793c44ecfed'
+        },
+        method: 'GET'
+      })
+    }),
+
+    getTopRatedMovie: builder.query({
+      query: () => ({
+        url: '/movie/top_rated',
         params: {
           api_key: '92c1e33f015755d27a231793c44ecfed'
         },
@@ -21,9 +42,21 @@ export const movieApi = createApi({
     }),
 
 
+
+
     getMovieDetail: builder.query({
       query: (id) => ({
         url: `/movie/${id}`,
+        params: {
+          api_key: '92c1e33f015755d27a231793c44ecfed'
+        },
+        method: 'GET'
+      })
+    }),
+
+    getMovieVideos: builder.query({
+      query: (id) => ({
+        url: `/movie/${id}/videos`,
         params: {
           api_key: '92c1e33f015755d27a231793c44ecfed'
         },
@@ -38,4 +71,4 @@ export const movieApi = createApi({
 });
 
 
-export const { useGetUpcomingMovieQuery, useGetMovieDetailQuery } = movieApi;
+export const { useGetUpcomingMovieQuery, useGetMovieDetailQuery, useGetMovieVideosQuery, useGetPopularMovieQuery, useGetTopRatedMovieQuery } = movieApi;

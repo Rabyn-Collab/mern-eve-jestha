@@ -24,6 +24,16 @@ const productShema = new mongoose.Schema({
   rating: {
     type: Number,
     default: 0
+  },
+  category: {
+    type: String,
+    enum: ['electronics', 'fashion', 'jewelery', 'books'],
+    required: true
+  },
+  brand: {
+    type: String,
+    enum: ['apple', 'samsung', 'sony', 'dolce', 'gucci', 'nike', 'amazon'],
+    required: true
   }
 
 

@@ -5,11 +5,24 @@ import mongoose from "mongoose";
 
 
 export const getProducts = async (req, res) => {
-  return res.status(200).json({ message: 'welcome to backened' });
+  try {
+    const products = await Product.find();
+    return res.status(200).json(products);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 }
 
 export const getProduct = async (req, res) => {
-  return res.status(200).json({ message: 'welcome to backened' });
+  const { id } = req.params;
+  try {
+    if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'invalid product id' });
+    const isExist = await Product.findById(id);
+    if (!isExist) return res.status(404).json({ message: 'product not found' });
+    return res.status(200).json(isExist);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 }
 
 export const addProduct = async (req, res) => {
@@ -35,7 +48,7 @@ export const updateProduct = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'invalid product id' });
     const isExist = await Product.findById(id);
-    if (!isExist) return res.status(400).json({ message: 'product not found' });
+    if (!isExist) return res.status(404).json({ message: 'product not found' });
 
     isExist.title = req.body?.title || isExist.title;
     isExist.description = req.body?.description || isExist.description;
@@ -64,7 +77,7 @@ export const deleteProduct = async (req, res) => {
   try {
     if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'invalid product id' });
     const isExist = await Product.findById(id);
-    if (!isExist) return res.status(400).json({ message: 'product not found' });
+    if (!isExist) return res.status(404).json({ message: 'product not found' });
 
     fs.unlink(`./uploads/${isExist.image}`, async (imageErr) => {
       await isExist.deleteOne();

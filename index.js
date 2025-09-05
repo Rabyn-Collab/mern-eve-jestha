@@ -1,5 +1,6 @@
 import express from 'express';
 import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 
@@ -31,4 +32,5 @@ app.get('/', (req, res) => {
 
 
 app.use(productRoutes);
+app.use(userRoutes);
 

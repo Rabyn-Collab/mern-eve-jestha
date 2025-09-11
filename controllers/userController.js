@@ -21,13 +21,15 @@ export const loginUser = async (req, res) => {
 
     const token = jwt.sign({
       id: isExist._id,
-      role: isExist.role
+      role: isExist.role,
+
     }, 'secret');
 
     return res.status(200).json({
       token,
       email: isExist.email,
-      role: isExist.role
+      role: isExist.role,
+      image: isExist.image
     });
 
 

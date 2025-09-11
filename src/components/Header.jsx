@@ -11,10 +11,15 @@ import {
   Avatar,
   Button
 } from "@heroui/react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router";
+import { removeUser } from "../features/user/userSlice";
+import { base } from "../app/mainApi";
 
 
 export default function Header() {
+  const { user } = useSelector((state) => state.userSlice);
+  const dispatch = useDispatch();
   return (
     <Navbar>
       <NavbarBrand>
@@ -39,19 +44,7 @@ export default function Header() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <NavLink to={'/login'}>Login</NavLink>
-        </NavbarItem>
-        <NavbarItem>
-          <NavLink to={'/register'}>
-            Sign Up
-          </NavLink>
-
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent as="div" justify="end">
+      {user ? <NavbarContent as="div" justify="end">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <Avatar
@@ -61,7 +54,7 @@ export default function Header() {
               color="secondary"
               name="Jason Hughes"
               size="sm"
-              src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              src={`${base}/${user.image}`}
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -75,12 +68,28 @@ export default function Header() {
             <DropdownItem key="system">System</DropdownItem>
             <DropdownItem key="configurations">Configurations</DropdownItem>
             <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem
+              onClick={() => dispatch(removeUser())}
+              key="logout" color="danger">
               Log Out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>
-      </NavbarContent>
+      </NavbarContent> : <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <NavLink to={'/login'}>Login</NavLink>
+        </NavbarItem>
+        <NavbarItem>
+          <NavLink to={'/register'}>
+            Sign Up
+          </NavLink>
+
+        </NavbarItem>
+      </NavbarContent>}
+
+
+
+
     </Navbar>
   )
 }

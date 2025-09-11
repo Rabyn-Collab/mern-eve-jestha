@@ -1,6 +1,9 @@
 import { Formik } from "formik";
 import { Form, Input, Button } from "@heroui/react";
 import * as Yup from "yup";
+import { useRegisterMutation } from "./authApi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 
 const supportedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
@@ -15,6 +18,8 @@ const loginSchema = Yup.object({
 
 
 export default function Register() {
+  const [registerUser, { isLoading }] = useRegisterMutation();
+  const nav = useNavigate();
   return (
     <div className="p-5">
 
@@ -27,8 +32,20 @@ export default function Register() {
           imageReview: ''
         }}
 
-        onSubmit={(val) => {
-          console.log(val)
+        onSubmit={async (val) => {
+          const formData = new FormData();
+          formData.append('username', val.username);
+          formData.append('email', val.email);
+          formData.append('password', val.password);
+          formData.append('image', val.image);
+          try {
+            await registerUser(formData).unwrap();
+            toast.success('User registered successfully');
+            nav(-1);
+          } catch (err) {
+            toast.error(err.data.message);
+
+          }
         }}
 
         validationSchema={loginSchema}
@@ -95,7 +112,7 @@ export default function Register() {
 
 
             <div className="flex gap-2">
-              <Button color="primary" type="submit">
+              <Button isLoading={isLoading} color="primary" type="submit">
                 Submit
               </Button>
 

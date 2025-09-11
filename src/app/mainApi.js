@@ -1,4 +1,4 @@
 
 
-
-export const baseUrl = '';
+export const base = 'http://192.168.1.66:5000';
+export const baseUrl = 'http://192.168.1.66:5000/api';

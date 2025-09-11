@@ -1,6 +1,11 @@
 import { Formik } from "formik";
 import { Form, Input, Button } from "@heroui/react";
 import * as Yup from "yup";
+import { useLoginMutation } from "./authApi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setUser } from "../user/userSlice";
 
 const loginSchema = Yup.object({
   email: Yup.string().email().required(),
@@ -9,6 +14,9 @@ const loginSchema = Yup.object({
 
 
 export default function Login() {
+  const [loginUser, { isLoading }] = useLoginMutation();
+  const nav = useNavigate();
+  const dispatch = useDispatch();
   return (
     <div className="p-5">
 
@@ -18,8 +26,17 @@ export default function Login() {
           password: ''
         }}
 
-        onSubmit={(val) => {
-          console.log(val)
+        onSubmit={async (val) => {
+          try {
+            const response = await loginUser(val).unwrap();
+            dispatch(setUser(response));
+            toast.success('User logged in successfully');
+            nav(-1);
+
+          } catch (err) {
+            toast.error(err.data.message);
+
+          }
         }}
 
         validationSchema={loginSchema}
@@ -56,7 +73,7 @@ export default function Login() {
 
 
             <div className="flex gap-2">
-              <Button color="primary" type="submit">
+              <Button isLoading={isLoading} color="primary" type="submit">
                 Submit
               </Button>
 

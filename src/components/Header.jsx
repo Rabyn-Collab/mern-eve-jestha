@@ -12,7 +12,7 @@ import {
   Button
 } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { removeUser } from "../features/user/userSlice";
 import { base } from "../app/mainApi";
 
@@ -20,6 +20,7 @@ import { base } from "../app/mainApi";
 export default function Header() {
   const { user } = useSelector((state) => state.userSlice);
   const dispatch = useDispatch();
+  const nav = useNavigate();
   return (
     <Navbar>
       <NavbarBrand>
@@ -60,14 +61,20 @@ export default function Header() {
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{user.email}</p>
             </DropdownItem>
-            <DropdownItem key="settings">My Settings</DropdownItem>
-            <DropdownItem key="team_settings">Team Settings</DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="system">System</DropdownItem>
-            <DropdownItem key="configurations">Configurations</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+
+            {user.role === 'Admin' ? <>
+              <DropdownItem key="profile">Profile</DropdownItem>
+              <DropdownItem
+                onClick={() => nav('/admin-panel')}
+                key="admin_panel">Admin Panel</DropdownItem>
+
+            </> : <>
+              <DropdownItem key="profile">Profile</DropdownItem>
+              <DropdownItem key="carts">Carts</DropdownItem>
+            </>}
+
             <DropdownItem
               onClick={() => dispatch(removeUser())}
               key="logout" color="danger">

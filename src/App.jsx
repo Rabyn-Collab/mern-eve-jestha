@@ -6,6 +6,7 @@ import Login from "./features/auth/Login";
 import Register from "./features/auth/Register";
 import AdminPanel from "./features/admin/AdminPanel";
 import AddForm from "./features/admin/AddForm";
+import EditForm from "./features/admin/EditForm";
 
 export default function App() {
 
@@ -34,6 +35,10 @@ export default function App() {
         {
           path: 'add-form',
           element: <AddForm />
+        },
+        {
+          path: 'edit-form/:id',
+          element: <EditForm />
         }
       ]
     }

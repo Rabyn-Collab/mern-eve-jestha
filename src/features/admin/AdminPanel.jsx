@@ -83,7 +83,9 @@ export default function AdminPanel() {
                   </td>
                   <td className={classes}>
 
-                    <Button isIconOnly aria-label="Like" color="secondary">
+                    <Button
+                      onPress={() => nav(`/edit-form/${_id}`)}
+                      isIconOnly aria-label="Like" color="secondary">
                       <i className="fa-solid fa-pen-to-square"></i>
                     </Button>
 

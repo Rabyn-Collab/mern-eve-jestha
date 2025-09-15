@@ -11,6 +11,14 @@ export const productApi = createApi({
   endpoints: (builder) => ({
 
 
+    getProduct: builder.query({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: 'GET'
+      }),
+      providesTags: ['Product']
+    }),
+
     getProducts: builder.query({
       query: () => ({
         url: '/products',
@@ -23,6 +31,18 @@ export const productApi = createApi({
       query: (q) => ({
         url: '/products',
         method: 'POST',
+        headers: {
+          Authorization: q.token
+        },
+        body: q.data
+      }),
+      invalidatesTags: ['Product']
+    }),
+
+    updateProduct: builder.mutation({
+      query: (q) => ({
+        url: `/products/${q.id}`,
+        method: 'PATCH',
         headers: {
           Authorization: q.token
         },
@@ -48,4 +68,4 @@ export const productApi = createApi({
 });
 
 
-export const { useGetProductsQuery, useCreateProductMutation, useRemoveProductMutation } = productApi;
+export const { useGetProductsQuery, useCreateProductMutation, useRemoveProductMutation, useGetProductQuery, useUpdateProductMutation } = productApi;

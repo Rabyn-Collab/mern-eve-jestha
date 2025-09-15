@@ -1,10 +1,12 @@
 import { Button, Input, Select, SelectItem, Textarea } from "@heroui/react";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useCreateProductMutation } from "../products/productApi";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { brands, categories } from "./AddForm";
+import { useGetProductQuery, useUpdateProductMutation } from "../products/productApi";
+import { base } from "../../app/mainApi";
 
 
 
@@ -15,50 +17,39 @@ const valSchema = Yup.object({
   stock: Yup.number().required(),
   category: Yup.string().required(),
   brand: Yup.string().required(),
-  image: Yup.mixed().required().test('fileType', 'Unsupported file type', (val) => {
-    return val && ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'].includes(val.type);
+  image: Yup.mixed().test('fileType', 'Unsupported file type', (val) => {
+    if (!val) return true;
+    return ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'].includes(val.type);
   }),
 });
 
 
 
 
-export const brands = [
-  { key: "apple", label: "apple" },
-  { key: "samsung", label: "samsung" },
-  { key: "sony", label: "sony" },
-  { key: "dolce", label: "dolce" },
-  { key: "gucci", label: "gucci" },
-  { key: "nike", label: "nike" },
-  { key: "amazon", label: "amazon" },
 
-];
-
-export const categories = [
-  { key: "electronics", label: "electronics" },
-  { key: "fashion", label: "fashion" },
-  { key: "jewelery", label: "jewelery" },
-  { key: "books", label: "books" },
-
-];
-
-
-export default function AddForm() {
-  const [createProduct, { isLoading }] = useCreateProductMutation();
+export default function EditForm() {
+  const { id } = useParams();
   const { user } = useSelector((state) => state.userSlice);
   const nav = useNavigate();
+  const { isLoading, data, error } = useGetProductQuery(id);
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
+
+  if (isLoading) return <h1>Loading....</h1>
+  if (error) return <h1 className="text-red-500">{error.message}</h1>
+
+
   return (
     <div className="p-5">
       <Formik
         initialValues={{
-          title: '',
-          description: '',
-          price: '',
-          stock: '',
-          category: '',
-          brand: '',
+          title: data.title,
+          description: data.description,
+          price: data.price,
+          stock: data.stock,
+          category: data.category,
+          brand: data.brand,
           image: '',
-          imageReview: ''
+          imageReview: data.image
         }}
 
         onSubmit={async (val) => {
@@ -69,17 +60,21 @@ export default function AddForm() {
           formData.append('stock', val.stock);
           formData.append('category', val.category);
           formData.append('brand', val.brand);
-          formData.append('image', val.image);
+          if (val.image) {
+            formData.append('image', val.image);
+          }
 
           try {
-            await createProduct({
+            await updateProduct({
               data: formData,
+              id,
               token: user.token
             }).unwrap();
-            toast.success('Product added successfully');
+            toast.success('Product updated successfully');
             nav(-1);
 
           } catch (err) {
+            console.log(err);
             toast.error(err.data.message);
           }
 
@@ -131,6 +126,7 @@ export default function AddForm() {
                 onChange={handleChange}
                 value={values.category}
                 name="category"
+                defaultSelectedKeys={[values.category]}
 
                 label="Select Category">
                 {categories.map((category) => (
@@ -143,7 +139,7 @@ export default function AddForm() {
 
             <div>
               <Select
-
+                defaultSelectedKeys={[values.brand]}
                 onChange={handleChange}
                 value={values.brand}
                 name="brand"
@@ -167,7 +163,7 @@ export default function AddForm() {
               {touched.image && errors.image && <p className="text-red-500">{errors.image}</p>}
               <div className="mt-4">
                 {!errors.image && values.imageReview && (
-                  <img src={values.imageReview} alt="" />
+                  <img src={`${!values.image ? base + '/' + values.imageReview : values.imageReview}`} alt="" />
                 )}
 
               </div>
@@ -175,7 +171,7 @@ export default function AddForm() {
 
             </div>
 
-            <Button isLoading={isLoading} type="submit">Submit</Button>
+            <Button isLoading={isUpdating} type="submit">Submit</Button>
 
           </form>
         )}

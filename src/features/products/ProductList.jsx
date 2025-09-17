@@ -1,9 +1,11 @@
 import { Card, CardBody, CardFooter, Image } from "@heroui/react";
 import { useGetProductsQuery } from "./productApi";
 import { base } from "../../app/mainApi";
+import { useNavigate } from "react-router";
 
 export default function ProductList() {
   const { isLoading, error, data } = useGetProductsQuery();
+  const nav = useNavigate();
 
   if (isLoading) return <h1>Loading....</h1>
   if (error) return <h1 className="text-red-500">{error.message}</h1>
@@ -13,7 +15,9 @@ export default function ProductList() {
 
       {data && data.map((item, index) => (
 
-        <Card key={index} isPressable shadow="sm" onPress={() => console.log("item pressed")}>
+        <Card
+
+          key={index} isPressable shadow="sm" onPress={() => nav(`/product/${item._id}`)}>
           <CardBody className="overflow-visible p-0">
             <Image
               alt={item.title}

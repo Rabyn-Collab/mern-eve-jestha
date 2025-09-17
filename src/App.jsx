@@ -7,6 +7,8 @@ import Register from "./features/auth/Register";
 import AdminPanel from "./features/admin/AdminPanel";
 import AddForm from "./features/admin/AddForm";
 import EditForm from "./features/admin/EditForm";
+import Product from "./features/products/Product";
+import Cart from "./features/carts/Cart";
 
 export default function App() {
 
@@ -27,6 +29,15 @@ export default function App() {
         {
           path: 'register',
           element: <Register />
+        },
+        {
+          path: 'cart',
+          element: <Cart />
+
+        },
+        {
+          path: 'product/:id',
+          element: <Product />
         },
         {
           path: 'admin-panel',

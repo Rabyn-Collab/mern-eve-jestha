@@ -21,6 +21,10 @@ export const cartSlice = createSlice({
       setCartsToLocal(state.carts);
 
     },
+    removeSingle: (state, action) => {
+      state.carts = state.carts.filter(cart => cart.id !== action.payload);
+      setCartsToLocal(state.carts);
+    },
 
     removeCart: (state, action) => {
       state.carts = [];
@@ -31,4 +35,4 @@ export const cartSlice = createSlice({
 });
 
 
-export const { setCart, removeCart } = cartSlice.actions;
+export const { setCart, removeCart, removeSingle } = cartSlice.actions;

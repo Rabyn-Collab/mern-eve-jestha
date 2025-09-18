@@ -72,7 +72,9 @@ export default function Header() {
 
             </> : <>
               <DropdownItem key="profile">Profile</DropdownItem>
-              <DropdownItem key="carts">Carts</DropdownItem>
+              <DropdownItem
+                onClick={() => nav('/cart')}
+                key="carts">Carts</DropdownItem>
             </>}
 
             <DropdownItem

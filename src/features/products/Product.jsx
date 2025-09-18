@@ -9,6 +9,7 @@ import { setCart } from "../carts/cartSlice";
 
 export default function Product() {
   const { carts } = useSelector(state => state.cartSlice);
+  const { user } = useSelector(state => state.userSlice);
   const { id } = useParams();
   const nav = useNavigate();
   const cart = carts.find(cart => cart.id === id);
@@ -60,17 +61,20 @@ export default function Product() {
             </Button>
           </div>
 
-          <Button onPress={() => {
-            dispatch(setCart({
-              id: data._id,
-              title: data.title,
-              image: data.image,
-              price: data.price,
-              stock: data.stock,
-              qty
-            }));
-            nav('/cart');
-          }}>ADD TO CART</Button>
+          <Button
+            disabled={!user || user?.role === 'Admin'}
+            color={user && user?.role === 'Admin' ? 'default' : 'secondary'}
+            onPress={() => {
+              dispatch(setCart({
+                id: data._id,
+                title: data.title,
+                image: data.image,
+                price: data.price,
+                stock: data.stock,
+                qty
+              }));
+              nav('/cart');
+            }}>ADD TO CART</Button>
         </div>
 
 

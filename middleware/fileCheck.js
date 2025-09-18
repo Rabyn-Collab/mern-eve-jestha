@@ -41,7 +41,8 @@ export const checkImageFile = (req, res, next) => {
 
 export const updateCheckFile = (req, res, next) => {
   const file = req.files?.image;
-  if (!file) next();
+
+  if (!file) return next();
   const extName = path.extname(file.name);
   if (!supportedExtensions.includes(extName)) return res.status(400).json({ message: 'invalid file type' });
 

@@ -7,6 +7,7 @@ export default function ProductList() {
   const { isLoading, error, data } = useGetProductsQuery();
   const nav = useNavigate();
 
+
   if (isLoading) return <h1>Loading....</h1>
   if (error) return <h1 className="text-red-500">{error.message}</h1>
 

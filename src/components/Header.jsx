@@ -71,7 +71,9 @@ export default function Header() {
                 key="admin_panel">Admin Panel</DropdownItem>
 
             </> : <>
-              <DropdownItem key="profile">Profile</DropdownItem>
+              <DropdownItem
+                onClick={() => nav('/profile')}
+                key="profile">Profile</DropdownItem>
               <DropdownItem
                 onClick={() => nav('/cart')}
                 key="carts">Carts</DropdownItem>

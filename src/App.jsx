@@ -9,6 +9,8 @@ import AddForm from "./features/admin/AddForm";
 import EditForm from "./features/admin/EditForm";
 import Product from "./features/products/Product";
 import Cart from "./features/carts/Cart";
+import ProfilePage from "./features/profile/ProfilePage";
+import OrderDetail from "./features/orders/OrderDetail";
 
 export default function App() {
 
@@ -29,6 +31,14 @@ export default function App() {
         {
           path: 'register',
           element: <Register />
+        },
+        {
+          path: 'profile',
+          element: <ProfilePage />
+        },
+        {
+          path: 'order/:id',
+          element: <OrderDetail />
         },
         {
           path: 'cart',

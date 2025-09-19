@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 export default function Cart() {
   const [createOrder, { isLoading }] = useCreateOrderMutation();
   const { carts } = useSelector(state => state.cartSlice);
-  const totalAmount = carts.reduce((acc, cart) => acc + cart.price, 0);
+  const totalAmount = carts.reduce((acc, cart) => acc + cart.price * cart.qty, 0);
   const user = useSelector(state => state.userSlice.user);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -23,8 +23,12 @@ export default function Cart() {
     try {
       await createOrder({
         token: user.token,
-        data: carts
+        data: {
+          products: carts,
+          totalAmount
+        }
       }).unwrap();
+      dispatch(removeCart());
       toast.success('Order created successfully');
 
     } catch (err) {

@@ -4,10 +4,18 @@ import { baseUrl } from "../../app/mainApi";
 
 
 export const orderApi = createApi({
-  reducerPath: 'productApi',
+  reducerPath: 'orderApi',
   baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
 
   endpoints: (builder) => ({
+
+    getOrder: builder.query({
+      query: (id) => ({
+        url: `/orders/${id}`,
+        method: 'GET'
+      }),
+      providesTags: ['Order']
+    }),
 
 
     getOrders: builder.query({
@@ -39,4 +47,4 @@ export const orderApi = createApi({
 });
 
 
-export const { useGetOrdersQuery, useCreateOrderMutation } = orderApi;
+export const { useGetOrdersQuery, useCreateOrderMutation, useGetOrderQuery } = orderApi;

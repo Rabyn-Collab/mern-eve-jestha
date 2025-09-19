@@ -1,5 +1,5 @@
 import Order from "../models/Order.js";
-
+import mongoose from "mongoose";
 
 
 export const getOrders = async (req, res) => {
@@ -19,6 +19,24 @@ export const getOrders = async (req, res) => {
 
   }
 }
+
+
+export const getOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    if (!mongoose.isValidObjectId(id)) return res.status(400).json({ message: 'invalid order id' });
+    const isExist = await Order.findById(id).populate({
+      path: 'user',
+      model: 'User',
+      select: 'email username'
+    });
+    if (!isExist) return res.status(404).json({ message: 'order not found' });
+    return res.status(200).json(isExist);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+}
+
 
 export const createOrder = async (req, res) => {
   const { totalAmount, products } = req.body;

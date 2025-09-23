@@ -65,7 +65,9 @@ export default function Header() {
             </DropdownItem>
 
             {user.role === 'Admin' ? <>
-              <DropdownItem key="profile">Profile</DropdownItem>
+              <DropdownItem
+                onClick={() => nav('/profile')}
+                key="profiles">Profile</DropdownItem>
               <DropdownItem
                 onClick={() => nav('/admin-panel')}
                 key="admin_panel">Admin Panel</DropdownItem>

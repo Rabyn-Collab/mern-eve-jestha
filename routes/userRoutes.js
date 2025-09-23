@@ -1,6 +1,7 @@
 import express from 'express';
-import { loginUser, registerUser } from '../controllers/userController.js';
-import { checkImageFile } from '../middleware/fileCheck.js';
+import { loginUser, registerUser, updateUser } from '../controllers/userController.js';
+import { checkImageFile, updateImageFile } from '../middleware/fileCheck.js';
+import { checkUser } from '../middleware/authCheck.js';
 
 
 
@@ -9,8 +10,11 @@ const router = express.Router();
 
 
 
-router.route('/api/users/login').post(loginUser)
-router.route('/api/users/register').post(checkImageFile, registerUser)
+router.route('/api/users/login').post(loginUser);
+router.route('/api/users/register').post(checkImageFile, registerUser);
+
+router.route('/api/users/update').patch(checkUser, updateImageFile, updateUser);
+
 
 
 export default router;

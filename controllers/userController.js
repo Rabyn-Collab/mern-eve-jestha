@@ -5,7 +5,34 @@ import jwt from 'jsonwebtoken';
 
 
 
+export const updateUser = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const isExist = await User.findById(userId);
+    isExist.email = req.body?.email || isExist.email;
+    isExist.username = req.body?.username || isExist.username;
+    if (req.imagePath) {
+      fs.unlink(`./user_images/${isExist.image}`, async (imageErr) => {
+        isExist.image = req.imagePath;
+        await isExist.save();
+        return res.status(200).json({ message: 'User successfully updated' });
+      });
+    } else {
+      await isExist.save();
+      return res.status(200).json({ message: 'User successfully updated' });
+    }
 
+  } catch (err) {
+    if (req.imagePath) {
+      fs.unlink(`./user_images/${req.imagePath}`, (imageErr) => {
+        return res.status(400).json({ message: err.message });
+      })
+    } else {
+      return res.status(400).json({ message: err.message });
+    }
+
+  }
+}
 
 
 export const loginUser = async (req, res) => {
@@ -29,7 +56,8 @@ export const loginUser = async (req, res) => {
       token,
       email: isExist.email,
       role: isExist.role,
-      image: isExist.image
+      image: isExist.image,
+      username: isExist.username
     });
 
 

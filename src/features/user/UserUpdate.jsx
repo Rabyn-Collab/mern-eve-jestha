@@ -3,7 +3,7 @@ import { Form, Input, Button } from "@heroui/react";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
 import { base } from "../../app/mainApi";
-import { useUpdateUserMutation } from "../auth/authApi";
+import { useGetUserQuery, useUpdateUserMutation } from "../auth/authApi";
 
 
 const supportedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif'];
@@ -19,22 +19,24 @@ const userSchema = Yup.object({
 
 
 export default function UserUpdate({ user }) {
-
+  const { isLoading: loading, data, error } = useGetUserQuery(user.token);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+
+  if (loading) return <h1>Loading....</h1>;
+  if (error) return <h1 className="text-red-500">{error.message}</h1>;
 
   return (
     <div className="p-5">
 
       <Formik
         initialValues={{
-          username: user.username,
-          email: user.email,
+          username: data.username,
+          email: data.email,
           image: '',
-          imageReview: user.image
+          imageReview: data.image
         }}
 
         onSubmit={async (val) => {
-          console.log(val);
 
           const formData = new FormData();
 

@@ -36,9 +36,19 @@ export const authApi = createApi({
         headers: {
           Authorization: q.token
         }
-      })
+      }),
+      invalidatesTags: ['User']
     }),
-
+    getUser: builder.query({
+      query: (token) => ({
+        url: '/users/me',
+        method: 'GET',
+        headers: {
+          Authorization: token
+        }
+      }),
+      providesTags: ['User']
+    }),
 
 
 
@@ -49,4 +59,4 @@ export const authApi = createApi({
 
 
 
-export const { useLoginMutation, useRegisterMutation, useUpdateUserMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useUpdateUserMutation, useGetUserQuery } = authApi;

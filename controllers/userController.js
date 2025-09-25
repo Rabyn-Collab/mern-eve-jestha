@@ -4,6 +4,16 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
+export const getUser = async (req, res) => {
+  const userId = req.userId;
+  try {
+    const isExist = await User.findById(userId).select('-password -role');
+    if (!isExist) return res.status(404).json({ message: 'user not found' });
+    return res.status(200).json(isExist);
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
+}
 
 export const updateUser = async (req, res) => {
   const userId = req.userId;
@@ -54,10 +64,7 @@ export const loginUser = async (req, res) => {
 
     return res.status(200).json({
       token,
-      email: isExist.email,
       role: isExist.role,
-      image: isExist.image,
-      username: isExist.username
     });
 
 

@@ -13,7 +13,6 @@ export const getProducts = async (req, res) => {
       delete queryObject[field];
     });
 
-
     if (req.query.search) {
       const searchText = req.query.search;
 
@@ -27,8 +26,25 @@ export const getProducts = async (req, res) => {
 
 
     }
+    const output = {};
+    for (let key in queryObject) {
+      const match = key.match(/(\w+)\[(\w+)\]/); // e.g. rating[gt]
+      if (match) {
+        const field = match[1];   // rating
+        const operator = match[2]; // gt
+        output[field] = { [`$${operator}`]: Number(queryObject[key]) };
+      } else {
+        // if no operator, keep it as is
+        output[key] = isNaN(queryObject[key]) ? queryObject[key] : Number(queryObject[key]);
+      }
+    }
 
-    let query = Product.find(queryObject);
+
+
+
+
+    let query = Product.find(output);
+
 
     if (req.query.sort) {
       const sortBy = req.query.sort.split(/[\s,]+/).filter(Boolean).join(' ');

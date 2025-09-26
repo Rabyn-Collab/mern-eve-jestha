@@ -11,6 +11,7 @@ import Product from "./features/products/Product";
 import Cart from "./features/carts/Cart";
 import ProfilePage from "./features/profile/ProfilePage";
 import OrderDetail from "./features/orders/OrderDetail";
+import SearchPage from "./features/search/SearchPage";
 
 export default function App() {
 
@@ -48,6 +49,11 @@ export default function App() {
         {
           path: 'product/:id',
           element: <Product />
+        },
+        {
+          path: 'product/search',
+          element: <SearchPage />
+
         },
         {
           path: 'admin-panel',

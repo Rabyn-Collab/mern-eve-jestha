@@ -48,7 +48,7 @@ export default function AdminPanel() {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ title, createdAt, price, _id, image }, index) => {
+            {data.products.map(({ title, createdAt, price, _id, image }, index) => {
               const isLast = index === data.length - 1;
               const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 

@@ -14,7 +14,7 @@ export default function ProductList() {
   return (
     <div className="gap-5 grid grid-cols-2 sm:grid-cols-4">
 
-      {data && data.map((item, index) => (
+      {data && data?.products.map((item, index) => (
 
         <Card
 

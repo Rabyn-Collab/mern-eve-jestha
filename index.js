@@ -18,7 +18,9 @@ mongoose.connect('mongodb+srv://psg017597:pass900@cluster0.yqujtfd.mongodb.net/S
 }).catch((err) => {
   console.log(err);
 })
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://mern-eve-jestha.vercel.app']
+}));
 app.use(express.json());
 app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 },

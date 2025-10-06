@@ -5,8 +5,9 @@ import Header from "./Header";
 
 export default function RootLayout() {
   return (
-    <div>
+    <div className="">
       <Header />
+
       <Outlet />
 
     </div>

@@ -22,7 +22,7 @@ export default function Header() {
   const { user } = useSelector((state) => state.userSlice);
 
   return (
-    <Navbar>
+    <Navbar className="h-[70px]">
       <NavbarBrand>
         <p className="font-bold text-inherit text-2xl">SHOPIFY</p>
       </NavbarBrand>

@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, Image } from "@heroui/react";
+import { Button, Card, CardBody, CardFooter, CardHeader, Image } from "@heroui/react";
 import { useGetProductsQuery } from "./productApi";
 import { base } from "../../app/mainApi";
 import { useNavigate, useSearchParams } from "react-router";
@@ -16,37 +16,42 @@ export default function ProductList() {
 
 
 
+
+
   if (isLoading) return <h1>Loading....</h1>
   if (error) return <h1 className="text-red-500">{error.message}</h1>
 
 
   return (
-    <div>
-      <div className="gap-5 grid grid-cols-2 sm:grid-cols-4">
+    <div className="flex flex-col min-h-[calc(100vh-164px)]">
+      <div className=" grid grid-cols-2 sm:grid-cols-4 grow">
 
         {data && data?.products.map((item, index) => (
-
           <Card
-
-            key={index} isPressable shadow="sm" onPress={() => nav(`/product/${item._id}`)}>
-            <CardBody className="overflow-visible p-0">
+            key={index}
+            isPressable
+            onPress={() => nav(`/product/${item._id}`)}
+            className="">
+            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+              <p className="text-tiny uppercase font-bold">Rs. {item.price}</p>
+              <small className="text-default-500">{item.category}</small>
+              <h4 className="font-bold text-large">{item.title}</h4>
+            </CardHeader>
+            <CardBody className="overflow-visible py-2">
               <Image
-                alt={item.title}
-                className="w-full object-cover h-[140px]"
-                radius="lg"
-                shadow="sm"
+                alt="Card background"
+                className="object-cover rounded-xl"
                 src={`${base}/${item.image}`}
-                width="100%"
+                width={270}
               />
             </CardBody>
-            <CardFooter className="text-small justify-between">
-              <b>{item.title}</b>
-              <p className="text-default-500">Rs. {item.price}</p>
-            </CardFooter>
           </Card>
+
+
         ))}
 
       </div>
+
       <div className="flex justify-center items-center gap-5 my-3">
         <Button
           onPress={() => setSearchParams({ page: Number(data.page) - 1 })}
@@ -54,7 +59,7 @@ export default function ProductList() {
         <h1>{data.page}</h1>
         <Button
           onPress={() => setSearchParams({ page: Number(data.page) + 1 })}
-          disabled={Number(data.page) === data.totalPages}
+          disabled={Number(data.page) === data.totalPages || data.totalPages === 0}
         >Next</Button>
       </div>
     </div>

@@ -21,7 +21,7 @@ export default function ProductList() {
   if (isLoading) return <h1>Loading....</h1>
   if (error) return <h1 className="text-red-500">{error.message}</h1>
 
-
+  //
   return (
     <div className="flex flex-col min-h-[calc(100vh-164px)]">
       <div className=" grid grid-cols-2 sm:grid-cols-4 grow">

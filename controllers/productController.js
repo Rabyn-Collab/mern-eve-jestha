@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 
 export const getProducts = async (req, res) => {
+  // console.log(req.cookies?.jwt);
   try {
     const queryObject = { ...req.query };
 

@@ -5,6 +5,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -18,7 +19,9 @@ mongoose.connect('mongodb+srv://psg017597:pass900@cluster0.yqujtfd.mongodb.net/S
 }).catch((err) => {
   console.log(err);
 })
+app.use(cookieParser());
 app.use(cors({
+  credentials: true,
   origin: ['http://localhost:5173', 'https://mern-eve-jestha.vercel.app']
 }));
 app.use(express.json());

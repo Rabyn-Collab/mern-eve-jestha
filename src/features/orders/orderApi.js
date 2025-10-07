@@ -1,11 +1,8 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { baseUrl } from "../../app/mainApi";
+import { mainApi } from "../../app/mainApi";
 
 
 
-export const orderApi = createApi({
-  reducerPath: 'orderApi',
-  baseQuery: fetchBaseQuery({ baseUrl: baseUrl }),
+export const orderApi = mainApi.injectEndpoints({
 
   endpoints: (builder) => ({
 

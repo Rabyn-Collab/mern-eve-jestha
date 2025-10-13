@@ -1,11 +1,28 @@
-import { Button } from "../components/ui/button";
+import axios from "axios"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+export default async function Page() {
 
-export default function Page() {
+  const response = await axios.get('https://60f3af443cb0870017a8a007.mockapi.io/employees');
+  const employees = response.data;
+
   return (
     <div className="p-5">
-      <Button className={'bg-red-500 px-10'}>Click Me</Button>
-      <h1>Hello jee</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, unde iste cum excepturi animi nemo et. Nobis provident labore in voluptatem quasi, tenetur nesciunt vel. Tempora aperiam necessitatibus nemo ab.</p>
+
+      {employees.map((employee) => (
+        <Card key={employee.id} className={'mb-3'}>
+          <CardHeader>
+            <CardTitle>{employee.fullname}</CardTitle>
+            <CardDescription>{employee.position}</CardDescription>
+            <CardAction>{employee.age}</CardAction>
+          </CardHeader>
+        </Card>
+      ))}
 
     </div>
   )

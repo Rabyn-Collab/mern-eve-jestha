@@ -12,16 +12,11 @@ import { Label } from "@/components/ui/label"
 import { Formik } from "formik";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
-import { addEmployee } from "../../../lib/action";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Spinner } from "../../../components/ui/spinner";
-import { useSession } from "next-auth/react";
 
 export default function Page() {
-  const { data, status } = useSession();
-  // if (status === 'unauthenticated') {
-  //   redirect('/')
-  // }
+
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -31,7 +26,7 @@ export default function Page() {
 
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Add Employee</CardTitle>
+          <CardTitle>Login Form</CardTitle>
 
 
         </CardHeader>
@@ -40,21 +35,12 @@ export default function Page() {
 
           <Formik
             initialValues={{
-              fullname: '',
-              position: '',
-              age: ''
+              email: '',
+              password: ''
             }}
 
             onSubmit={(val) => {
-              startTransition(async () => {
-                const res = await addEmployee(val);
-                if (res.success) {
-                  toast.success(res.message);
-                  router.back();
-                } else {
-                  toast.error(res.message);
-                }
-              })
+
 
             }}
 
@@ -65,13 +51,13 @@ export default function Page() {
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
 
-                    <Label htmlFor="fullname">Full Name</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
-                      id="fullname"
+                      id="email"
                       type="text"
-                      value={values.fullname}
+                      value={values.email}
                       onChange={handleChange}
-                      placeholder="John Doe"
+                      placeholder="@example.com"
 
                     />
                     {touched.fullname && errors.fullname && <p className="text-red-500">{errors.fullname}</p>}
@@ -79,32 +65,19 @@ export default function Page() {
 
                   <div className="grid gap-2">
 
-                    <Label htmlFor="position">Position</Label>
+                    <Label htmlFor="password">Password</Label>
                     <Input
-                      id="position"
+                      id="password"
                       type="text"
-                      value={values.position}
+                      value={values.password}
                       onChange={handleChange}
-                      placeholder="Developer"
+                      placeholder="*******"
 
                     />
                     {touched.position && errors.position && <p className="text-red-500">{errors.position}</p>}
                   </div>
 
 
-                  <div className="grid gap-2">
-
-                    <Label htmlFor="age">Age</Label>
-                    <Input
-                      id="age"
-                      type="number"
-                      value={values.age}
-                      onChange={handleChange}
-                      placeholder="25"
-
-                    />
-                    {touched.age && errors.age && <p className="text-red-500">{errors.age}</p>}
-                  </div>
 
 
 
@@ -112,13 +85,13 @@ export default function Page() {
 
 
                 </div>
-
+                {/* 
                 {isPending ? <Button size="sm" className="w-full mt-6" disabled>
                   <Spinner />
                   Submit
                 </Button> : <Button type="submit" className="w-full mt-6">
                   Submit
-                </Button>}
+                </Button>} */}
 
 
               </form>

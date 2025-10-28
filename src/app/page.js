@@ -11,17 +11,18 @@ import { EditIcon } from "lucide-react";
 import { Button } from "../components/ui/button";
 import RemoveEmployee from "../components/RemoveEmployee";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
 import { options } from "./api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
 
 
 
 //export const revalidate = 5;
 
 export default async function Page() {
-  const m = await getServerSession(options);
+  const userData = await getServerSession(options);
 
-  console.log(m);
+
+
   const response = await axios.get('https://60f3af443cb0870017a8a007.mockapi.io/employees');
   const employees = response.data;
 

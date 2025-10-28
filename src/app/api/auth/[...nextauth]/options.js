@@ -15,8 +15,8 @@ export const options = {
         const user = {
           id: 1,
           name: 'John Doe',
-          email: 'jsmith@gmail.com',
-          password: 'password123',
+          email: 'rabyn900@gmail.com',
+          password: 'moles900',
         };
 
         if (credentials.email === user.email && credentials.password === user.password) {
@@ -31,5 +31,8 @@ export const options = {
     })
 
   ],
+  pages: {
+    signIn: '/form/login'
+  }
 
 };

@@ -19,7 +19,7 @@ import { getServerSession } from "next-auth";
 //export const revalidate = 5;
 
 export default async function Page() {
-  const userData = await getServerSession(options);
+  // const userData = await getServerSession(options);
 
 
 

@@ -14,6 +14,7 @@ import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "../../../components/ui/spinner";
+import { signIn } from "next-auth/react";
 
 export default function Page() {
 
@@ -40,6 +41,26 @@ export default function Page() {
             }}
 
             onSubmit={(val) => {
+
+              startTransition(async () => {
+                const res = await signIn(
+                  'credentials',
+                  {
+                    email: val.email,
+                    password: val.password,
+                    redirect: false
+                  }
+                );
+
+                if (res.ok) {
+                  router.back();
+                  toast.success('successfully login');
+                } else if (res.error) {
+                  toast.error(res.error);
+                }
+
+
+              })
 
 
             }}
@@ -68,7 +89,7 @@ export default function Page() {
                     <Label htmlFor="password">Password</Label>
                     <Input
                       id="password"
-                      type="text"
+                      type="password"
                       value={values.password}
                       onChange={handleChange}
                       placeholder="*******"
@@ -85,13 +106,13 @@ export default function Page() {
 
 
                 </div>
-                {/* 
+
                 {isPending ? <Button size="sm" className="w-full mt-6" disabled>
                   <Spinner />
                   Submit
                 </Button> : <Button type="submit" className="w-full mt-6">
                   Submit
-                </Button>} */}
+                </Button>}
 
 
               </form>

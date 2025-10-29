@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-const mongo_uri = 'mongodb+srv://rabyn900:moles900@cluster0.ikwdezp.mongodb.net/NewShop';
+const mongo_uri = 'mongodb+srv://rabyn900:moles900@cluster0.ikwdezp.mongodb.net/NextApp';
 
 
 let cached = global.mongoose;
 
 
 if (!cached) {
-  cached = { conn: null, promise: null }
+  cached = global.mongoose = { conn: null, promise: null }
 }
 
 async function dbConnect() {

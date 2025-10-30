@@ -14,8 +14,7 @@ import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { Spinner } from "../../../components/ui/spinner";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
+import axios from "axios";
 
 export default function Page() {
 
@@ -37,6 +36,7 @@ export default function Page() {
 
           <Formik
             initialValues={{
+              name: '',
               email: '',
               password: ''
             }}
@@ -44,24 +44,18 @@ export default function Page() {
             onSubmit={(val) => {
 
               startTransition(async () => {
-                const res = await signIn(
-                  'credentials',
-                  {
-                    email: val.email,
-                    password: val.password,
-                    redirect: false
-                  }
-                );
-
-                if (res.ok) {
+                try {
+                  await axios.post('http://localhost:3000/api/auth/register', val);
+                  toast.success('successfully registered');
                   router.back();
-                  toast.success('successfully login');
-                } else if (res.error) {
-                  toast.error(res.error);
+
+                } catch (err) {
+                  toast.error(err.message);
+
                 }
+              });
 
 
-              })
 
 
             }}
@@ -71,6 +65,20 @@ export default function Page() {
             {({ values, handleChange, handleSubmit, touched, errors }) => (
               <form onSubmit={handleSubmit}>
                 <div className="flex flex-col gap-6">
+
+                  <div className="grid gap-2">
+
+                    <Label htmlFor="name">Username</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={values.name}
+                      onChange={handleChange}
+                      placeholder="John Doe"
+
+                    />
+                    {touched.name && errors.name && <p className="text-red-500">{errors.name}</p>}
+                  </div>
                   <div className="grid gap-2">
 
                     <Label htmlFor="email">Email</Label>
@@ -119,12 +127,12 @@ export default function Page() {
               </form>
             )}
           </Formik>
+
           <div className="mt-4 flex gap-2">
-            <h1>Don't have an Account ? </h1>
-            <Link href={'/form/register'}>Register</Link>
+            <h1>Already have an Account ? </h1>
+            <button className="cursor-pointer" onClick={() => router.back()} >Login</button>
 
           </div>
-
 
         </CardContent>
 

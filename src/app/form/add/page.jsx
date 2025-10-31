@@ -12,16 +12,13 @@ import { Label } from "@/components/ui/label"
 import { Formik } from "formik";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
-import { addEmployee } from "../../../lib/action";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Spinner } from "../../../components/ui/spinner";
-import { useSession } from "next-auth/react";
+import { addDoc, collection } from "@firebase/firestore";
+import { db } from "../../../lib/firebaseFirestore";
 
 export default function Page() {
-  const { data, status } = useSession();
-  // if (status === 'unauthenticated') {
-  //   redirect('/')
-  // }
+
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -40,95 +37,112 @@ export default function Page() {
 
           <Formik
             initialValues={{
-              fullname: '',
-              position: '',
-              age: ''
+              title: '',
+              detail: '',
+              image: '',
+              author: ''
             }}
 
             onSubmit={(val) => {
               startTransition(async () => {
-                const res = await addEmployee(val);
-                if (res.success) {
-                  toast.success(res.message);
-                  router.back();
-                } else {
-                  toast.error(res.message);
-                }
-              })
+                await addDoc(collection(db, 'news'), val);
+                toast.success('news added successfully');
+                // router.back();
+              } catch (err) {
+                toast.error(err.message);
+              }
+            })
 
             }}
 
+          try {
+               
           >
 
             {({ values, handleChange, handleSubmit, touched, errors }) => (
-              <form onSubmit={handleSubmit}>
-                <div className="flex flex-col gap-6">
-                  <div className="grid gap-2">
+          <form onSubmit={handleSubmit}>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
 
-                    <Label htmlFor="fullname">Full Name</Label>
-                    <Input
-                      id="fullname"
-                      type="text"
-                      value={values.fullname}
-                      onChange={handleChange}
-                      placeholder="John Doe"
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  type="text"
+                  value={values.title}
+                  onChange={handleChange}
+                  placeholder="title"
 
-                    />
-                    {touched.fullname && errors.fullname && <p className="text-red-500">{errors.fullname}</p>}
-                  </div>
+                />
+                {touched.title && errors.title && <p className="text-red-500">{errors.title}</p>}
+              </div>
 
-                  <div className="grid gap-2">
+              <div className="grid gap-2">
 
-                    <Label htmlFor="position">Position</Label>
-                    <Input
-                      id="position"
-                      type="text"
-                      value={values.position}
-                      onChange={handleChange}
-                      placeholder="Developer"
+                <Label htmlFor="detail">Detail</Label>
+                <Input
+                  id="detail"
+                  type="text"
+                  value={values.detail}
+                  onChange={handleChange}
+                  placeholder="detail"
 
-                    />
-                    {touched.position && errors.position && <p className="text-red-500">{errors.position}</p>}
-                  </div>
+                />
+                {touched.detail && errors.detail && <p className="text-red-500">{errors.detail}</p>}
+              </div>
+
+              <div className="grid gap-2">
+
+                <Label htmlFor="author">Author</Label>
+                <Input
+                  id="author"
+                  type="text"
+                  value={values.author}
+                  onChange={handleChange}
+                  placeholder="author"
+
+                />
+                {touched.author && errors.author && <p className="text-red-500">{errors.author}</p>}
+              </div>
+
+              <div className="grid gap-2">
+
+                <Label htmlFor="image">Image</Label>
+                <Input
+                  id="image"
+                  type="text"
+                  value={values.image}
+                  onChange={handleChange}
+                  placeholder="image"
+
+                />
+                {touched.image && errors.image && <p className="text-red-500">{errors.image}</p>}
+              </div>
 
 
-                  <div className="grid gap-2">
-
-                    <Label htmlFor="age">Age</Label>
-                    <Input
-                      id="age"
-                      type="number"
-                      value={values.age}
-                      onChange={handleChange}
-                      placeholder="25"
-
-                    />
-                    {touched.age && errors.age && <p className="text-red-500">{errors.age}</p>}
-                  </div>
 
 
 
 
 
 
-                </div>
+            </div>
 
-                {isPending ? <Button size="sm" className="w-full mt-6" disabled>
-                  <Spinner />
-                  Submit
-                </Button> : <Button type="submit" className="w-full mt-6">
-                  Submit
-                </Button>}
+            {isPending ? <Button size="sm" className="w-full mt-6" disabled>
+              <Spinner />
+              Submit
+            </Button> : <Button type="submit" className="w-full mt-6">
+              Submit
+            </Button>}
 
 
-              </form>
+          </form>
             )}
-          </Formik>
+        </Formik>
 
-        </CardContent>
+      </CardContent>
 
-      </Card>
+    </Card>
 
-    </div>
+    </div >
   )
 }

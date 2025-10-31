@@ -1,7 +1,6 @@
 import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import "./globals.css";
-import AuthProvider from "./providers/authProvider";
 
 
 export const metadata = {
@@ -13,13 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
 
+        <Header />
 
-          <Header />
+        {children}
 
-          {children}
-        </AuthProvider>
         <Toaster toastOptions={{ duration: 700 }} />
       </body>
     </html>

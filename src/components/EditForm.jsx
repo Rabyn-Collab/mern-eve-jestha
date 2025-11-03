@@ -13,11 +13,13 @@ import { Formik } from "formik";
 import { useTransition } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { addDoc, collection, doc, updateDoc } from "@firebase/firestore";
+
 import { Spinner } from "./ui/spinner";
-import { updateEmployee } from "../lib/action";
+import { db } from "../lib/firebaseFirestore";
 
+export default function EditForm({ news, id }) {
 
-export default function EditForm({ employee }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -27,7 +29,7 @@ export default function EditForm({ employee }) {
 
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>Add Employee</CardTitle>
+          <CardTitle>Update Employee</CardTitle>
 
 
         </CardHeader>
@@ -36,23 +38,26 @@ export default function EditForm({ employee }) {
 
           <Formik
             initialValues={{
-              fullname: employee.fullname,
-              position: employee.position,
-              age: employee.age
+              title: news.title,
+              detail: news.detail,
+              image: news.image,
+              author: news.author
             }}
 
             onSubmit={(val) => {
               startTransition(async () => {
-                const res = await updateEmployee(employee.id, val);
-                if (res.success) {
-                  toast.success(res.message);
+                try {
+                  updateDoc(doc(db, 'news', id), val);
+                  toast.success('news updated successfully');
                   router.back();
-                } else {
-                  toast.error(res.message);
+                } catch (err) {
+                  toast.error(err.message);
                 }
               })
 
             }}
+
+
 
           >
 
@@ -61,46 +66,61 @@ export default function EditForm({ employee }) {
                 <div className="flex flex-col gap-6">
                   <div className="grid gap-2">
 
-                    <Label htmlFor="fullname">Full Name</Label>
+                    <Label htmlFor="title">Title</Label>
                     <Input
-                      id="fullname"
+                      id="title"
                       type="text"
-                      value={values.fullname}
+                      value={values.title}
                       onChange={handleChange}
-                      placeholder="John Doe"
+                      placeholder="title"
 
                     />
-                    {touched.fullname && errors.fullname && <p className="text-red-500">{errors.fullname}</p>}
+                    {touched.title && errors.title && <p className="text-red-500">{errors.title}</p>}
                   </div>
 
                   <div className="grid gap-2">
 
-                    <Label htmlFor="position">Position</Label>
+                    <Label htmlFor="detail">Detail</Label>
                     <Input
-                      id="position"
+                      id="detail"
                       type="text"
-                      value={values.position}
+                      value={values.detail}
                       onChange={handleChange}
-                      placeholder="Developer"
+                      placeholder="detail"
 
                     />
-                    {touched.position && errors.position && <p className="text-red-500">{errors.position}</p>}
+                    {touched.detail && errors.detail && <p className="text-red-500">{errors.detail}</p>}
                   </div>
-
 
                   <div className="grid gap-2">
 
-                    <Label htmlFor="age">Age</Label>
+                    <Label htmlFor="author">Author</Label>
                     <Input
-                      id="age"
-                      type="number"
-                      value={values.age}
+                      id="author"
+                      type="text"
+                      value={values.author}
                       onChange={handleChange}
-                      placeholder="25"
+                      placeholder="author"
 
                     />
-                    {touched.age && errors.age && <p className="text-red-500">{errors.age}</p>}
+                    {touched.author && errors.author && <p className="text-red-500">{errors.author}</p>}
                   </div>
+
+                  <div className="grid gap-2">
+
+                    <Label htmlFor="image">Image</Label>
+                    <Input
+                      id="image"
+                      type="text"
+                      value={values.image}
+                      onChange={handleChange}
+                      placeholder="image"
+
+                    />
+                    {touched.image && errors.image && <p className="text-red-500">{errors.image}</p>}
+                  </div>
+
+
 
 
 
@@ -125,6 +145,6 @@ export default function EditForm({ employee }) {
 
       </Card>
 
-    </div>
+    </div >
   )
 }

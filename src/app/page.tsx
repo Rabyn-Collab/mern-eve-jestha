@@ -1,26 +1,27 @@
-
-type Person = {
-  a: number,
-  b?: string
-};
+'use client';
+import ShoppingList from "@/components/ShoppingList";
+import ShoppingListForm from "@/components/ShoppingListForm";
+import Item from "@/models/item";
+import { useState } from "react";
 
 export default function Page() {
 
-  let pers: number | string | boolean = 'as;lkd';
-  pers = false;
+  const [items, setItem] = useState<Item[]>([
+    { id: 1, product: 'Shoes', qty: 2 },
+    { id: 2, product: 'Watch', qty: 3 },
+    { id: 3, product: 'Jeans', qty: 1 },
+  ]);
 
-
-  const some = (person: Person) => {
-    console.log(person);
-
+  const addItem = (product: string) => {
+    setItem([...items, { id: 4, product, qty: 5 }])
   }
-
-  const m: Person = { a: 90, };
-  console.log(m.b);
 
 
   return (
-    <div>
+    <div className="p-5">
+      <ShoppingListForm addItem={addItem} />
+
+      <ShoppingList items={items} />
 
     </div>
   )

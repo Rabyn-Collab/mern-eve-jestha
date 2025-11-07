@@ -10,7 +10,6 @@ export default function ShoppingListForm({ addItem }: ShoppingListFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     addItem(refEl.current?.value!);
-
   }
   return (
     <div>
